@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useCallback } from "react";
 import { useForm } from "../../../hooks";
 
 import TaskCreationForm from "../components/TaskCreationForm/TaskCreationForm";
-import TasksList from "../components/TasksList/TasksList";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TASK } from "../actions";
+import { ADD_TASK, DELETE_TASK, DONE_TASK } from "../actions";
 import todoListPage from "../reducers";
+import TodoListLayout from "../components/Layout/TodoListPageLayout";
 
 const TodoListContainer = () => {
-  const [formValues, handleChange] = useForm({
+  const [formValues, handleChange, clearInput] = useForm({
     taskText: "",
   });
 
@@ -19,21 +19,41 @@ const TodoListContainer = () => {
 
   const handleTaskAdd = useCallback(
     (event) => {
-      dispatch(ADD_TASK(event));
+      event.preventDefault();
+      dispatch(ADD_TASK(formValues));
     },
-    [dispatch]
+    [formValues]
   );
+
+  const handleTaskDone = useCallback(
+    (index) => {
+      dispatch(DONE_TASK(index));
+    },
+    [formValues]
+  );
+
+  const handleDeleteTask = useCallback(
+    (index) => {
+      dispatch(DELETE_TASK(index));
+    },
+    [formValues]
+  );
+
+  const isAddButtonDisabled = useMemo(() => {
+    return formValues.taskText === "";
+  }, [formValues]);
 
   return (
     <>
-      <TaskCreationForm
+      <TodoListLayout
         tasks={tasks}
+        handleTaskAdd={handleTaskAdd}
+        handleTaskDone={handleTaskDone}
+        handleDeleteTask={handleDeleteTask}
         formValues={formValues}
         handleChange={handleChange}
-        //handleSubmit={handleSubmit}
-        handleTaskAdd={handleTaskAdd}
+        isAddButtonDisabled={isAddButtonDisabled}
       />
-      <TasksList tasks={tasks} formValues={formValues} />
     </>
   );
 };

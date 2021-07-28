@@ -1,19 +1,23 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 
 export default (initialValue) => {
   const [formValues, setFormValues] = useState(initialValue);
 
   const handleChange = useCallback(
     (event) => {
-      const {name, value} = event.target;
+      const { name, value } = event.target;
 
       setFormValues({
         ...formValues,
-        [name]: value
-      })
+        [name]: value,
+      });
     },
-    [formValues],
+    [formValues]
   );
 
-  return [formValues, handleChange];
-}
+  const clearInput = useCallback(() => {
+    setFormValues(initialValue);
+  }, [formValues]);
+
+  return [formValues, handleChange, clearInput];
+};

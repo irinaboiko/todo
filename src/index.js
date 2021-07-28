@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import MainLayout from "./commonComponents/MainLayout";
 import TodoListContainer from "./pages/TodoListPage/containers/TodoListContainer";
 import { configureStore } from "./store/configureStore";
+import "./index.css";
 
 const store = configureStore();
 
