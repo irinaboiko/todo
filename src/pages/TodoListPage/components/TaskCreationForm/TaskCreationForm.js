@@ -34,6 +34,13 @@ const TaskCreationForm = ({
   );
 };
 
-TaskCreationForm.propTypes = {};
+TaskCreationForm.propTypes = {
+  formValues: PropTypes.shape({
+    taskText: PropTypes.string.isRequired,
+  }),
+  handleChange: PropTypes.func.isRequired,
+  handleTaskAdd: PropTypes.func.isRequired,
+  isAddButtonDisabled: PropTypes.bool.isRequired,
+};
 
 export default TaskCreationForm;

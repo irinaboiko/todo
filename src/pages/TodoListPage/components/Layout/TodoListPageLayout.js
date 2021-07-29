@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { v4 as uuid4 } from "uuid";
 
 import TaskView from "../TaskView/TaskView";
 import styles from "./style.module.scss";
@@ -12,6 +11,10 @@ const TodoListLayout = ({
   formValues,
   handleChange,
   handleTaskAdd,
+  handleEditTask,
+  handleTaskChange,
+  handleSaveEdits,
+  handleCancelSavingEdits,
   handleDeleteTask,
   isAddButtonDisabled,
 }) => {
@@ -26,11 +29,18 @@ const TodoListLayout = ({
       <div className={styles.tasksWrapper}>
         {tasks.map((task, index) => (
           <TaskView
-            handleTaskDone={() => handleTaskDone(index)}
-            handleDeleteTask={() => handleDeleteTask(index)}
-            taskText={task.taskText.taskText}
+            key={task.id}
+            taskText={task.taskText}
             isTaskDone={task.isTaskDone}
-            key={uuid4()}
+            isEditMode={task.isEditMode}
+            handleTaskDone={() => handleTaskDone(index)}
+            handleEditTask={() => handleEditTask(index)}
+            handleTaskChange={(event) =>
+              handleTaskChange({ index: index, value: event.target.value })
+            }
+            handleSaveEdits={() => handleSaveEdits(index)}
+            handleCancelSavingEdits={() => handleCancelSavingEdits(index)}
+            handleDeleteTask={() => handleDeleteTask(index)}
           />
         ))}
       </div>
@@ -38,6 +48,28 @@ const TodoListLayout = ({
   );
 };
 
-TodoListLayout.propTypes = {};
+TodoListLayout.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      isEditMode: PropTypes.bool,
+      isTaskDone: PropTypes.bool,
+      taskText: PropTypes.string,
+      taskTextBeforeEditing: PropTypes.string,
+    })
+  ),
+  handleTaskDone: PropTypes.func.isRequired,
+  formValues: PropTypes.shape({
+    taskText: PropTypes.string.isRequired,
+  }),
+  handleChange: PropTypes.func.isRequired,
+  handleTaskAdd: PropTypes.func.isRequired,
+  handleEditTask: PropTypes.func.isRequired,
+  handleTaskChange: PropTypes.func.isRequired,
+  handleSaveEdits: PropTypes.func.isRequired,
+  handleCancelSavingEdits: PropTypes.func.isRequired,
+  handleDeleteTask: PropTypes.func.isRequired,
+  isAddButtonDisabled: PropTypes.bool.isRequired,
+};
 
 export default TodoListLayout;

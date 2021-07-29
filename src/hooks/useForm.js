@@ -15,9 +15,5 @@ export default (initialValue) => {
     [formValues]
   );
 
-  const clearInput = useCallback(() => {
-    setFormValues(initialValue);
-  }, [formValues]);
-
-  return [formValues, handleChange, clearInput];
+  return [formValues, setFormValues, handleChange];
 };

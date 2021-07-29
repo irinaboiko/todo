@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 }
 
 .taskItem {
@@ -13,8 +12,7 @@
   border: 1px solid #7032ad;
   border-radius: 30px;
   display: block;
-  max-width: 650px;
-  width: 100%;
+  width: 650px;
   transition: all .2s;
   padding: .5rem;
   margin: .5rem 0;
@@ -35,33 +33,53 @@
   }
 }
 
-.buttonsWrapper {
-  display: flex;
-  margin-left: 1rem;
+.editTask {
+  font-size: 20px;
+  color: #7032ad;
+  font-weight: bold;
+  background-color: #ffffff;
+  border: 3px solid #7032ad;
+  border-radius: 30px;
+  display: block;
+  width: 605px;
+  transition: all .2s;
+  padding: .5rem 1rem;
+  margin: .5rem 0;
+}
 
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50px;
-    border: 2px solid #7032ad;
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 50px;
+  border: 2px solid #7032ad;
+  transition: all 0.3s;
+  margin-left: 5px;
+
+  &:hover {
+    cursor: pointer;
+    transform: rotate(90deg);
     transition: all 0.3s;
+  }
+
+  svg {
+    fill: #7032ad;
+  }
+
+  &:disabled {
+    opacity: 0.3;
 
     &:hover {
-      cursor: pointer;
-      transform: rotate(90deg);
-      transition: all 0.3s;
-    }
-
-    &:first-child {
-      margin-right: 5px;
-    }
-
-    svg {
-      fill: #7032ad;
+      cursor: not-allowed;
     }
   }
 }
 
+.inputWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

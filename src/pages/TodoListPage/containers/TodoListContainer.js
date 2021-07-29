@@ -4,12 +4,20 @@ import { useForm } from "../../../hooks";
 
 import TaskCreationForm from "../components/TaskCreationForm/TaskCreationForm";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_TASK, DELETE_TASK, DONE_TASK } from "../actions";
+import {
+  ADD_TASK,
+  CANCEL_SAVING_EDITS,
+  CHANGE_TASK_VALUE,
+  DELETE_TASK,
+  DONE_TASK,
+  SAVE_EDITED_TASK,
+  TURN_ON_TASK_EDIT_MODE,
+} from "../actions";
 import todoListPage from "../reducers";
 import TodoListLayout from "../components/Layout/TodoListPageLayout";
 
 const TodoListContainer = () => {
-  const [formValues, handleChange, clearInput] = useForm({
+  const [formValues, setFormValues, handleChange] = useForm({
     taskText: "",
   });
 
@@ -20,7 +28,12 @@ const TodoListContainer = () => {
   const handleTaskAdd = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(ADD_TASK(formValues));
+      dispatch(ADD_TASK(formValues.taskText));
+
+      setFormValues({
+        ...formValues,
+        taskText: "",
+      });
     },
     [formValues]
   );
@@ -32,11 +45,36 @@ const TodoListContainer = () => {
     [formValues]
   );
 
+  const handleEditTask = useCallback(
+    (index) => {
+      dispatch(TURN_ON_TASK_EDIT_MODE(index));
+    },
+    [formValues]
+  );
+
+  const handleTaskChange = useCallback(({ index, value }) => {
+    dispatch(CHANGE_TASK_VALUE({ index, value }));
+  }, []);
+
+  const handleSaveEdits = useCallback(
+    (index) => {
+      dispatch(SAVE_EDITED_TASK(index));
+    },
+    [dispatch]
+  );
+
+  const handleCancelSavingEdits = useCallback(
+    (index) => {
+      dispatch(CANCEL_SAVING_EDITS(index));
+    },
+    [dispatch]
+  );
+
   const handleDeleteTask = useCallback(
     (index) => {
       dispatch(DELETE_TASK(index));
     },
-    [formValues]
+    [dispatch]
   );
 
   const isAddButtonDisabled = useMemo(() => {
@@ -49,6 +87,10 @@ const TodoListContainer = () => {
         tasks={tasks}
         handleTaskAdd={handleTaskAdd}
         handleTaskDone={handleTaskDone}
+        handleEditTask={handleEditTask}
+        handleTaskChange={handleTaskChange}
+        handleSaveEdits={handleSaveEdits}
+        handleCancelSavingEdits={handleCancelSavingEdits}
         handleDeleteTask={handleDeleteTask}
         formValues={formValues}
         handleChange={handleChange}
