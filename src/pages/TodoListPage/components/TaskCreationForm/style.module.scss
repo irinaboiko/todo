@@ -1,0 +1,53 @@
+.inputGroup {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.label {
+  width: 100%;
+  max-width: 650px;
+}
+
+.inputTitle {
+  color: #7032ad;
+  font-weight: bold;
+  font-size: 22px;
+  text-align: center;
+}
+
+.input {
+  color: #7032ad;
+  font-size: 22px;
+  border: 3px solid #7032ad;
+  border-radius: 30px;
+  width: 100%;
+  padding: .5rem 1rem;
+}
+
+.addButton {
+  color: #7032ad;
+  font-size: 30px;
+  border: 3px solid #7032ad;
+  border-radius: 50%;
+  background-color: #ffffff;
+  width: 48px;
+  height: 48px;
+  margin-left: .5rem;
+  transition: all .3s;
+
+  &:disabled {
+    opacity: .3;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    transform: rotate(90deg);
+    transition: all .3s;
+  }
+}
