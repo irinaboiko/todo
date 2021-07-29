@@ -9,7 +9,7 @@ import {
   CANCEL_SAVING_EDITS,
   CHANGE_TASK_VALUE,
   DELETE_TASK,
-  DONE_TASK,
+  TOGGLE_TASK_COMPLETENESS,
   SAVE_EDITED_TASK,
   TURN_ON_TASK_EDIT_MODE,
 } from "../actions";
@@ -31,7 +31,6 @@ const TodoListContainer = () => {
       dispatch(ADD_TASK(formValues.taskText));
 
       setFormValues({
-        ...formValues,
         taskText: "",
       });
     },
@@ -40,7 +39,7 @@ const TodoListContainer = () => {
 
   const handleTaskDone = useCallback(
     (index) => {
-      dispatch(DONE_TASK(index));
+      dispatch(TOGGLE_TASK_COMPLETENESS(index));
     },
     [formValues]
   );

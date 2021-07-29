@@ -9,12 +9,12 @@ const defaultState = {
 
 const todoListReducer = handleActions(
   {
-    [actions.ADD_TASK]: (state, action) => {
+    [actions.ADD_TASK]: (state, { payload }) => {
       const updatedState = [
         ...state.tasks,
         {
           id: uuid4(),
-          taskText: action.payload,
+          taskText: payload,
           taskTextBeforeEditing: "",
           isTaskDone: false,
           isEditMode: false,
@@ -22,70 +22,74 @@ const todoListReducer = handleActions(
       ];
 
       return {
-        ...state,
         tasks: updatedState,
       };
     },
-    [actions.DONE_TASK]: (state, action) => {
-      const updatedState = [...state.tasks];
-      const index = action.payload;
+    [actions.TOGGLE_TASK_COMPLETENESS]: (state, { payload }) => {
+      const taskListCopy = [...state.tasks];
+      const index = payload;
+      const task = taskListCopy[index];
 
-      updatedState[index].isTaskDone = !updatedState[index].isTaskDone;
+      task.isTaskDone = !task.isTaskDone;
 
       return {
         ...state,
-        tasks: updatedState,
+        tasks: taskListCopy,
       };
     },
-    [actions.TURN_ON_TASK_EDIT_MODE]: (state, action) => {
-      const updatedState = [...state.tasks];
-      const index = action.payload;
+    [actions.TURN_ON_TASK_EDIT_MODE]: (state, { payload }) => {
+      const taskListCopy = [...state.tasks];
+      const index = payload;
+      const task = taskListCopy[index];
 
-      updatedState[index].taskTextBeforeEditing = updatedState[index].taskText;
-      updatedState[index].isEditMode = true;
+      task.taskTextBeforeEditing = task.taskText;
+      task.isEditMode = true;
 
       return {
         ...state,
-        tasks: updatedState,
+        tasks: taskListCopy,
       };
     },
-    [actions.SAVE_EDITED_TASK]: (state, action) => {
-      const updatedState = [...state.tasks];
-      const index = action.payload;
+    [actions.SAVE_EDITED_TASK]: (state, { payload }) => {
+      const taskListCopy = [...state.tasks];
+      const index = payload;
+      const task = taskListCopy[index];
 
-      updatedState[index].isEditMode = false;
+      task.isEditMode = false;
 
       return {
         ...state,
-        tasks: updatedState,
+        tasks: taskListCopy,
       };
     },
-    [actions.CHANGE_TASK_VALUE]: (state, action) => {
-      const updatedState = [...state.tasks];
-      const { index, value } = action.payload;
+    [actions.CHANGE_TASK_VALUE]: (state, { payload }) => {
+      const taskListCopy = [...state.tasks];
+      const { index, value } = payload;
+      const task = taskListCopy[index];
 
-      updatedState[index].taskText = value;
+      task.taskText = value;
 
       return {
         ...state,
-        tasks: updatedState,
+        tasks: taskListCopy,
       };
     },
-    [actions.CANCEL_SAVING_EDITS]: (state, action) => {
-      const updatedState = [...state.tasks];
-      const index = action.payload;
+    [actions.CANCEL_SAVING_EDITS]: (state, { payload }) => {
+      const taskListCopy = [...state.tasks];
+      const index = payload;
+      const task = taskListCopy[index];
 
-      updatedState[index].taskText = updatedState[index].taskTextBeforeEditing;
-      updatedState[index].isEditMode = false;
+      task.taskText = task.taskTextBeforeEditing;
+      task.isEditMode = false;
 
       return {
         ...state,
-        tasks: updatedState,
+        tasks: taskListCopy,
       };
     },
-    [actions.DELETE_TASK]: (state, action) => {
+    [actions.DELETE_TASK]: (state, { payload }) => {
       const stateCopy = [...state.tasks];
-      const index = action.payload;
+      const index = payload;
 
       const updatedState = [
         ...stateCopy.slice(0, index),
