@@ -18,19 +18,19 @@ const TaskView = ({
 }) => {
   return (
     <div className={styles.taskWrapper}>
-      {!isEditMode ? (
-        <Task
-          taskText={taskText}
-          isTaskDone={isTaskDone}
-          handleTaskDone={handleTaskDone}
-          handleEditTask={handleEditTask}
-        />
-      ) : (
+      {isEditMode ? (
         <EditableTask
           taskText={taskText}
           handleTaskChange={handleTaskChange}
           handleSaveEdits={handleSaveEdits}
           handleCancelSavingEdits={handleCancelSavingEdits}
+        />
+      ) : (
+        <Task
+          taskText={taskText}
+          isTaskDone={isTaskDone}
+          handleTaskDone={handleTaskDone}
+          handleEditTask={handleEditTask}
         />
       )}
       <button onClick={handleDeleteTask}>
